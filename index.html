@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Cafe - Premium Coffee Delivery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #8B4513;
+            --secondary-color: #D2691E;
+            --accent-color: #FFD700;
+            --dark-bg: #1a1a1a;
+            --light-bg: #f5f1e8;
+            --text-dark: #2c1810;
+            --text-light: #f5f1e8;
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            padding: 1.5rem 0;
+            box-shadow: var(--shadow);
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--accent-color);
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .cart-btn {
+            background: var(--accent-color);
+            color: var(--primary-color);
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .cart-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff4444;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            display: none;
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Home Section */
+        .home-section {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .hero-content {
+            color: var(--text-light);
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: #ddd;
+        }
+
+        .cta-btn {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: var(--text-light);
+            padding: 1.2rem 3rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            font-weight: bold;
+            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(210, 105, 30, 0.4);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(210, 105, 30, 0.6);
+        }
+
+        /* Coffee Grid */
+        .coffee-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 3rem 0;
+        }
+
+        .coffee-card {
+            background: var(--light-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: var(--transition);
+            transform: translateY(0);
+        }
+
+        .coffee-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(139, 69, 19, 0.3);
+        }
+
+        .coffee-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .coffee-card:hover .coffee-image {
+            transform: scale(1.1);
+        }
+
+        .coffee-info {
+            padding: 1.5rem;
+        }
+
+        .coffee-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .coffee-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .coffee-price {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .coffee-rating {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .add-to-cart-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: var(--text-light);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        .add-to-cart-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(210, 105, 30, 0.3);
+        }
+
+        .add-to-cart-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Menu Section */
+        .menu-section {
+            min-height: 100vh;
+            padding: 3rem 0;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            color: var(--text-light);
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        /* Cart Section */
+        .cart-section {
+            min-height: 100vh;
+            padding: 3rem 0;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        }
+
+        .cart-items {
+            background: var(--light-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid #ddd;
+            animation: slideInLeft 0.5s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-details h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .item-details p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .qty-btn {
+            width: 30px;
+            height: 30px;
+            border: none;
+            background: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        .qty-btn:hover {
+            background: var(--secondary-color);
+            transform: scale(1.1);
+        }
+
+        .item-total {
+            font-weight: bold;
+            color: var(--secondary-color);
+            font-size: 1.3rem;
+            min-width: 100px;
+            text-align: right;
+        }
+
+        .remove-btn {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .remove-btn:hover {
+            background: #cc0000;
+            transform: scale(1.05);
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 3rem;
+            color: #999;
+        }
+
+        .cart-summary {
+            background: var(--primary-color);
+            color: var(--text-light);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .summary-row.total {
+            font-size: 1.8rem;
+            font-weight: bold;
+            border-top: 2px solid rgba(255, 255, 255, 0.2);
+            padding-top: 1rem;
+            margin-top: 1rem;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--accent-color);
+            color: var(--primary-color);
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .checkout-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        }
+
+        /* About Section */
+        .about-section {
+            min-height: 100vh;
+            padding: 3rem 0;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            display: flex;
+            align-items: center;
+        }
+
+        .about-content {
+            background: var(--light-bg);
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .about-content h2 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-content p {
+            color: #333;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .creator-credit {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: var(--text-light);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin-top: 2rem;
+            box-shadow: 0 5px 15px rgba(210, 105, 30, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .coffee-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cart-item {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .about-content {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Modal for quick view */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--light-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            animation: slideUp 0.3s ease-out;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #ff4444;
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            background: #cc0000;
+            transform: rotate(90deg);
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .modal-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-price {
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+
+        .modal-add-btn {
+            flex: 1;
+            padding: 0.8rem;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: var(--text-light);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .modal-add-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(210, 105, 30, 0.3);
+        }
+
+        /* Success notification */
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            animation: slideInRight 0.5s ease-out;
+            z-index: 3000;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+
+        .notification.hide {
+            animation: slideOutRight 0.5s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">☕ COFFEE CAFE</div>
+            <ul class="nav-links">
+                <li><a onclick="showSection('home')" class="nav-item active">Home</a></li>
+                <li><a onclick="showSection('menu')" class="nav-item">Menu</a></li>
+                <li><a onclick="showSection('about')" class="nav-item">About</a></li>
+                <li><button class="cart-btn" onclick="showSection('cart')">
+                    🛒 Cart
+                    <span class="cart-count" id="cartCount">0</span>
+                </button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Home Section -->
+    <section class="home-section active" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>PREMIUM COFFEE</h1>
+                <p>Discover the finest selection of artisanal coffees from around the world</p>
+                <button class="cta-btn" onclick="showSection('menu')">Explore Our Menu</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section class="menu-section" id="menu">
+        <div class="container">
+            <h2 class="section-title">☕ Our Coffee Menu</h2>
+            <div class="coffee-grid" id="coffeeGrid"></div>
+        </div>
+    </section>
+
+    <!-- Cart Section -->
+    <section class="cart-section" id="cart">
+        <div class="container">
+            <h2 class="section-title">🛒 Your Order Cart</h2>
+            <div class="cart-items" id="cartItems">
+                <div class="empty-cart">Your cart is empty. Add some delicious coffee!</div>
+            </div>
+            <div class="cart-summary" id="cartSummary" style="display: none;">
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">₹0</span>
+                </div>
+                <div class="summary-row">
+                    <span>Delivery:</span>
+                    <span>₹50</span>
+                </div>
+                <div class="summary-row">
+                    <span>Tax:</span>
+                    <span id="tax">₹0</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total:</span>
+                    <span id="total">₹0</span>
+                </div>
+                <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="container">
+            <div class="about-content">
+                <h2>About Coffee Cafe</h2>
+                <p>Welcome to Coffee Cafe, your ultimate destination for premium artisanal coffee. We pride ourselves on sourcing the finest coffee beans from renowned plantations across the globe.</p>
+                <p>Our expert baristas craft each cup with precision and passion, ensuring that every sip delivers an unforgettable experience. Whether you prefer a rich espresso, creamy cappuccino, or refreshing iced coffee, we have something perfect for every coffee lover.</p>
+                <p>We believe in sustainable practices and fair trade, supporting coffee farmers and protecting our environment for future generations.</p>
+                <div class="creator-credit">
+                    Created by 'harsh_v_k' ✨
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick View Modal -->
+    <div class="modal" id="quickViewModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <img class="modal-image" id="modalImage" src="" alt="Coffee">
+            <h3 class="modal-title" id="modalTitle"></h3>
+            <p class="modal-description" id="modalDescription"></p>
+            <div class="modal-footer">
+                <span class="modal-price" id="modalPrice"></span>
+                <button class="modal-add-btn" onclick="addFromModal()">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Coffee Menu Data
+        const coffees = [
+            {
+                id: 1,
+                name: "Espresso",
+                price: 120,
+                description: "Bold and intense single shot of pure coffee perfection",
+                image: "https://pplx-res.cloudinary.com/image/upload/v1766073647/search_images/35766c259f29b787c00d3eabfde35d782b6ae80e.jpg",
+                rating: "⭐⭐⭐⭐⭐"
+            },
+            {
+                id: 2,
+                name: "Cappuccino",
+                price: 180,
+                description: "Smooth blend of espresso and velvety steamed milk",
+                image: "https://pplx-res.cloudinary.com/image/upload/v1766073647/search_images/35766c259f29b787c00d3eabfde35d782b6ae80e.jpg",
+                rating: "⭐⭐⭐⭐⭐"
+            },
+            {
+                id: 3,
+                name: "Latte",
+                price: 170,
+                description: "Creamy and comforting with espresso and steamed milk",
+                image: "https://pplx-res.cloudinary.com/image/upload/v1765720746/search_images/e6e6b4f89bf8b01820a5f22929e89459ba2bbcaf.jpg",
+                rating: "⭐⭐⭐⭐"
+            },
+            {
+                id: 4,
+                name: "Macchiato",
+                price: 160,
+                description: "Espresso marked with just a touch of steamed milk",
+                image: "https://pplx-res.cloudinary.com/image/upload/v1766073647/search_images/c2625eaa3b32c4df3073f203bc58847f50ff85b7.jpg",
+                rating: "⭐⭐⭐⭐⭐"
+            },
+            {
+                id: 5,
+                name: "Iced Coffee",
+                price: 150,
+                description: "Refreshing cold brew perfect for hot days",
+                image: "https://pplx-res.cloudinary.com/image/upload/v1766073647/search_images/6b97677037d4a5c1fcfe70fb07b203bc58847f50ff85.jpg",
+                rating: "⭐⭐⭐⭐"
+            },
+            {
+                id: 6,
+                name: "Mocha",
+                price: 200,
+                description: "Delicious blend of espresso, chocolate, and creamy milk",
+                image: "https://pplx-res.cloudinary.com/image/upload/v1766073647/search_images/38e1a354dad6251b86c77ebc9fb89c7572ec1925.jpg",
+                rating: "⭐⭐⭐⭐⭐"
+            }
+        ];
+
+        let cart = [];
+        let currentCoffee = null;
+
+        // Initialize
+        function init() {
+            renderCoffeeGrid();
+        }
+
+        // Render coffee grid
+        function renderCoffeeGrid() {
+            const grid = document.getElementById('coffeeGrid');
+            grid.innerHTML = coffees.map(coffee => `
+                <div class="coffee-card" onclick="openQuickView(${coffee.id})">
+                    <img src="${coffee.image}" alt="${coffee.name}" class="coffee-image">
+                    <div class="coffee-info">
+                        <div class="coffee-name">${coffee.name}</div>
+                        <div class="coffee-description">${coffee.description}</div>
+                        <div class="coffee-rating">${coffee.rating}</div>
+                        <div class="coffee-price">₹${coffee.price}</div>
+                        <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(${coffee.id})">Add to Cart</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Show section
+        function showSection(sectionId) {
+            document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        // Add to cart
+        function addToCart(coffeeId) {
+            const coffee = coffees.find(c => c.id === coffeeId);
+            const existingItem = cart.find(item => item.id === coffeeId);
+
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({...coffee, quantity: 1});
+            }
+
+            updateCart();
+            showNotification(`${coffee.name} added to cart! ☕`);
+        }
+
+        // Update cart
+        function updateCart() {
+            const cartCount = document.getElementById('cartCount');
+            cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+            const cartItems = document.getElementById('cartItems');
+            const cartSummary = document.getElementById('cartSummary');
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<div class="empty-cart">Your cart is empty. Add some delicious coffee!</div>';
+                cartSummary.style.display = 'none';
+                return;
+            }
+
+            cartItems.innerHTML = cart.map((item, index) => `
+                <div class="cart-item">
+                    <div class="item-details">
+                        <h3>${item.name}</h3>
+                        <p>₹${item.price} each</p>
+                    </div>
+                    <div class="item-quantity">
+                        <button class="qty-btn" onclick="updateQuantity(${index}, -1)">−</button>
+                        <span>${item.quantity}</span>
+                        <button class="qty-btn" onclick="updateQuantity(${index}, 1)">+</button>
+                    </div>
+                    <div class="item-total">₹${item.price * item.quantity}</div>
+                    <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+                </div>
+            `).join('');
+
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const tax = Math.round(subtotal * 0.05);
+            const delivery = 50;
+            const total = subtotal + tax + delivery;
+
+            document.getElementById('subtotal').textContent = `₹${subtotal}`;
+            document.getElementById('tax').textContent = `₹${tax}`;
+            document.getElementById('total').textContent = `₹${total}`;
+            cartSummary.style.display = 'block';
+        }
+
+        // Update quantity
+        function updateQuantity(index, change) {
+            cart[index].quantity += change;
+            if (cart[index].quantity <= 0) {
+                removeItem(index);
+            } else {
+                updateCart();
+            }
+        }
+
+        // Remove item
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        // Open quick view modal
+        function openQuickView(coffeeId) {
+            currentCoffee = coffees.find(c => c.id === coffeeId);
+            document.getElementById('modalImage').src = currentCoffee.image;
+            document.getElementById('modalTitle').textContent = currentCoffee.name;
+            document.getElementById('modalDescription').textContent = currentCoffee.description;
+            document.getElementById('modalPrice').textContent = `₹${currentCoffee.price}`;
+            document.getElementById('quickViewModal').classList.add('active');
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('quickViewModal').classList.remove('active');
+        }
+
+        // Add from modal
+        function addFromModal() {
+            if (currentCoffee) {
+                addToCart(currentCoffee.id);
+                closeModal();
+            }
+        }
+
+        // Close modal on outside click
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('quickViewModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Checkout
+        function checkout() {
+            if (cart.length === 0) return;
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0) + 
+                         Math.round((cart.reduce((sum, item) => sum + (item.price * item.quantity), 0) * 0.05)) + 50;
+            
+            showNotification(`Order placed! Total: ₹${total}. Thank you! 🎉`, 3000);
+            cart = [];
+            updateCart();
+        }
+
+        // Show notification
+        function showNotification(message, duration = 2000) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.classList.add('hide');
+                setTimeout(() => notification.remove(), 500);
+            }, duration);
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
